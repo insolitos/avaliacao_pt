@@ -1,0 +1,14 @@
+{
+  "name": "avaliaportugues",
+  "version": "1.0.0",
+  "description": "Sistema de Avaliação de Português",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"No build step configured for this project.\" && exit 0",
+    "start": "echo \"This is a static HTML project. Open index.html in a browser.\" && exit 0"
+  },
+  "keywords": ["avaliacao", "portugues", "educacao"],
+  "author": "",
+  "license": "ISC"
+}
