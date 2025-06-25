@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvaliaPortuguês - Sistema de Avaliação</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header__content">
+            <div class="header__left">
+                <button class="btn-menu" id="menuToggle" aria-label="Alternar menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="header__title">AvaliaPortuguês</h1>
+            </div>
+            <div class="header__right">
+                <span class="header__user">Prof. Ana Silva</span>
+                <div class="header__user-avatar">AS</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Layout Principal -->
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar__nav">
+                <ul class="sidebar__menu">
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link active" data-section="dashboard">
+                            <span class="sidebar__icon">📊</span>
+                            <span class="sidebar__text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link" data-section="turmas">
+                            <span class="sidebar__icon">👥</span>
+                            <span class="sidebar__text">Turmas</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link" data-section="alunos">
+                            <span class="sidebar__icon">🎓</span>
+                            <span class="sidebar__text">Alunos</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link" data-section="avaliacoes">
+                            <span class="sidebar__icon">📝</span>
+                            <span class="sidebar__text">Avaliações</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link" data-section="relatorios">
+                            <span class="sidebar__icon">📈</span>
+                            <span class="sidebar__text">Relatórios</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#" class="sidebar__link" data-section="configuracoes">
+                            <span class="sidebar__icon">⚙️</span>
+                            <span class="sidebar__text">Configurações</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main" id="mainContent">
+            <!-- Dashboard -->
+            <section class="content-section active" id="dashboard">
+                <div class="content-header">
+                    <h2>Dashboard</h2>
+                    <p>Resumo das turmas e avaliações</p>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <!-- Estatísticas Rápidas -->
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-card__icon">👥</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="totalTurmas">3</div>
+                                <div class="stat-card__label">Turmas</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">🎓</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="totalAlunos">69</div>
+                                <div class="stat-card__label">Alunos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">📝</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="totalAvaliacoes">12</div>
+                                <div class="stat-card__label">Avaliações</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card__icon">📊</div>
+                            <div class="stat-card__content">
+                                <div class="stat-card__value" id="mediaNacional">3.4</div>
+                                <div class="stat-card__label">Média Geral</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Turmas Resumo -->
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Turmas - Ano Letivo 2024/2025</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="turmas-resumo" id="turmasResumo">
+                                <!-- Conteúdo será preenchido pelo JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Avaliações Recentes -->
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Avaliações Recentes</h3>
+                            <button class="btn btn--sm btn--primary" onclick="showSection('avaliacoes')">Ver todas</button>
+                        </div>
+                        <div class="card__body">
+                            <div class="avaliacoes-recentes" id="avaliacoesRecentes">
+                                <!-- Conteúdo será preenchido pelo JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Turmas -->
+            <section class="content-section" id="turmas">
+                <div class="content-header">
+                    <h2>Gestão de Turmas</h2>
+                    <button class="btn btn--primary" onclick="openModal('modalTurma')">Nova Turma</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card__body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Turma</th>
+                                        <th>Ano</th>
+                                        <th>Nº Alunos</th>
+                                        <th>Ano Letivo</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="turmasTable">
+                                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alunos -->
+            <section class="content-section" id="alunos">
+                <div class="content-header">
+                    <h2>Gestão de Alunos</h2>
+                    <button class="btn btn--primary" onclick="openModal('modalAluno')">Novo Aluno</button>
+                </div>
+                
+                <div class="filters-bar">
+                    <select class="form-control" id="filtroTurma" onchange="filtrarAlunos()">
+                        <option value="">Todas as turmas</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="Pesquisar aluno..." id="pesquisaAluno" oninput="filtrarAlunos()">
+                </div>
+
+                <div class="card">
+                    <div class="card__body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nº</th>
+                                        <th>Nome</th>
+                                        <th>Turma</th>
+                                        <th>Email</th>
+                                        <th>Média</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alunosTable">
+                                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Avaliações -->
+            <section class="content-section" id="avaliacoes">
+                <div class="content-header">
+                    <h2>Sistema de Avaliação</h2>
+                    <button class="btn btn--primary" onclick="openModal('modalAvaliacao')">Nova Avaliação</button>
+                </div>
+                
+                <div class="avaliacoes-tipos">
+                    <div class="tipo-card" onclick="criarAvaliacao('formativa')">
+                        <div class="tipo-card__icon">📋</div>
+                        <h3>Avaliação Formativa</h3>
+                        <p>Observação contínua do dia-a-dia</p>
+                    </div>
+                    <div class="tipo-card" onclick="criarAvaliacao('sumativa')">
+                        <div class="tipo-card__icon">📊</div>
+                        <h3>Avaliação Sumativa</h3>
+                        <p>Testes e exames formais</p>
+                    </div>
+                    <div class="tipo-card" onclick="criarAvaliacao('rubrica')">
+                        <div class="tipo-card__icon">✅</div>
+                        <h3>Avaliação por Rubricas</h3>
+                        <p>Critérios específicos detalhados</p>
+                    </div>
+                    <div class="tipo-card" onclick="criarAvaliacao('oralidade')">
+                        <div class="tipo-card__icon">🎤</div>
+                        <h3>Avaliação da Oralidade</h3>
+                        <p>Expressão e compreensão oral</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card__header">
+                        <h3>Avaliações Existentes</h3>
+                        <div class="filters-bar">
+                            <select class="form-control" id="filtroTipoAvaliacao" onchange="filtrarAvaliacoes()">
+                                <option value="">Todos os tipos</option>
+                                <option value="formativa">Formativa</option>
+                                <option value="sumativa">Sumativa</option>
+                                <option value="rubrica">Por Rubricas</option>
+                                <option value="oralidade">Oralidade</option>
+                            </select>
+                            <select class="form-control" id="filtroDominio" onchange="filtrarAvaliacoes()">
+                                <option value="">Todos os domínios</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card__body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th>Tipo</th>
+                                        <th>Domínio</th>
+                                        <th>Turma</th>
+                                        <th>Data</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="avaliacoesTable">
+                                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Relatórios -->
+            <section class="content-section" id="relatorios">
+                <div class="content-header">
+                    <h2>Relatórios e Estatísticas</h2>
+                </div>
+                
+                <div class="relatorios-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Desempenho por Domínio</h3>
+                        </div>
+                        <div class="card__body">
+                            <canvas id="graficoDesempenho" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Evolução das Médias</h3>
+                        </div>
+                        <div class="card__body">
+                            <canvas id="graficoEvolucao" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Configurações -->
+            <section class="content-section" id="configuracoes">
+                <div class="content-header">
+                    <h2>Configurações</h2>
+                </div>
+                
+                <div class="configuracoes-grid">
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Critérios de Avaliação</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="form-group">
+                                <label class="form-label">Pesos dos Domínios</label>
+                                <div class="dominios-config" id="dominiosConfig">
+                                    <!-- Conteúdo será preenchido pelo JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card__header">
+                            <h3>Rubricas de Avaliação</h3>
+                        </div>
+                        <div class="card__body">
+                            <div class="rubricas-config">
+                                <div class="rubrica-nivel">
+                                    <span class="rubrica-nivel__nome">Insuficiente</span>
+                                    <span class="rubrica-nivel__valores">1-2 valores</span>
+                                </div>
+                                <div class="rubrica-nivel">
+                                    <span class="rubrica-nivel__nome">Suficiente</span>
+                                    <span class="rubrica-nivel__valores">3 valores</span>
+                                </div>
+                                <div class="rubrica-nivel">
+                                    <span class="rubrica-nivel__nome">Bom</span>
+                                    <span class="rubrica-nivel__valores">4 valores</span>
+                                </div>
+                                <div class="rubrica-nivel">
+                                    <span class="rubrica-nivel__nome">Muito Bom</span>
+                                    <span class="rubrica-nivel__valores">5 valores</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Turma -->
+    <div class="modal" id="modalTurma">
+        <div class="modal__overlay" onclick="closeModal('modalTurma')"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3>Nova Turma</h3>
+                <button class="modal__close" onclick="closeModal('modalTurma')">&times;</button>
+            </div>
+            <form class="modal__body" id="formTurma">
+                <div class="form-group">
+                    <label class="form-label">Nome da Turma</label>
+                    <input type="text" class="form-control" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ano de Escolaridade</label>
+                    <select class="form-control" name="ano" required>
+                        <option value="">Selecione o ano</option>
+                        <option value="5º ano">5º ano</option>
+                        <option value="6º ano">6º ano</option>
+                        <option value="7º ano">7º ano</option>
+                        <option value="8º ano">8º ano</option>
+                        <option value="9º ano">9º ano</option>
+                        <option value="10º ano">10º ano</option>
+                        <option value="11º ano">11º ano</option>
+                        <option value="12º ano">12º ano</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ano Letivo</label>
+                    <input type="text" class="form-control" name="anoLetivo" value="2024/2025" required>
+                </div>
+            </form>
+            <div class="modal__footer">
+                <button class="btn btn--secondary" onclick="closeModal('modalTurma')">Cancelar</button>
+                <button class="btn btn--primary" onclick="salvarTurma()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Aluno -->
+    <div class="modal" id="modalAluno">
+        <div class="modal__overlay" onclick="closeModal('modalAluno')"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3>Novo Aluno</h3>
+                <button class="modal__close" onclick="closeModal('modalAluno')">&times;</button>
+            </div>
+            <form class="modal__body" id="formAluno">
+                <div class="form-group">
+                    <label class="form-label">Nome Completo</label>
+                    <input type="text" class="form-control" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Turma</label>
+                    <select class="form-control" name="turmaId" id="selectTurmaAluno" required>
+                        <option value="">Selecione a turma</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Número do Aluno</label>
+                    <input type="number" class="form-control" name="numeroAluno" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+            </form>
+            <div class="modal__footer">
+                <button class="btn btn--secondary" onclick="closeModal('modalAluno')">Cancelar</button>
+                <button class="btn btn--primary" onclick="salvarAluno()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Avaliação -->
+    <div class="modal modal--large" id="modalAvaliacao">
+        <div class="modal__overlay" onclick="closeModal('modalAvaliacao')"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3>Nova Avaliação</h3>
+                <button class="modal__close" onclick="closeModal('modalAvaliacao')">&times;</button>
+            </div>
+            <form class="modal__body" id="formAvaliacao">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Título da Avaliação</label>
+                        <input type="text" class="form-control" name="titulo" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Avaliação</label>
+                        <select class="form-control" name="tipo" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="Avaliação Formativa">Avaliação Formativa</option>
+                            <option value="Avaliação Sumativa">Avaliação Sumativa</option>
+                            <option value="Avaliação por Rubricas">Avaliação por Rubricas</option>
+                            <option value="Avaliação da Oralidade">Avaliação da Oralidade</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Domínio</label>
+                        <select class="form-control" name="dominio" id="selectDominio" required>
+                            <option value="">Selecione o domínio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Turma</label>
+                        <select class="form-control" name="turmaId" id="selectTurmaAvaliacao" required>
+                            <option value="">Selecione a turma</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Data</label>
+                    <input type="date" class="form-control" name="data" required>
+                </div>
+            </form>
+            <div class="modal__footer">
+                <button class="btn btn--secondary" onclick="closeModal('modalAvaliacao')">Cancelar</button>
+                <button class="btn btn--primary" onclick="salvarAvaliacao()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
