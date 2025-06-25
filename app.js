@@ -862,9 +862,13 @@ if (window.innerWidth <= 768) {
     sidebarCollapsed = true;
   }, 100);
 }
+
 // ===========================================
-// FUNCIONALIDADE PARA ALTERAR NOME DO PROFESOR
+// FUNCIONALIDADE PARA ALTERAR NOME DO PROFESSOR
 // ===========================================
+
+// Variável global para controlar se o botão já foi adicionado
+let botaoAlterarNomeAdicionado = false;
 
 if (typeof window.nomeProfessorAtual === 'undefined') {
     window.nomeProfessorAtual = "Professor(a)";
@@ -877,7 +881,7 @@ function alterarNomeProfessor() {
         window.nomeProfessorAtual = novoNome.trim();
         localStorage.setItem('nomeProfessorSalvo', novoNome.trim());
         atualizarNomeNaInterface();
-        alert("✅ Nome alterado para: " + novoNome.trim());
+        showNotification('Nome alterado para: ' + novoNome.trim(), 'success');
     }
 }
 
@@ -913,14 +917,11 @@ function carregarNomeSalvo() {
     }
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', carregarNomeSalvo);
-} else {
-    carregarNomeSalvo();
-}
-
 function adicionarBotaoAlterarNome() {
-    if (document.getElementById('btn-alterar-nome')) return;
+    // Verificar se o botão já foi adicionado
+    if (botaoAlterarNomeAdicionado || document.getElementById('btn-alterar-nome')) {
+        return;
+    }
     
     const botao = document.createElement('button');
     botao.id = 'btn-alterar-nome';
@@ -933,7 +934,18 @@ function adicionarBotaoAlterarNome() {
     `;
     botao.onclick = alterarNomeProfessor;
     document.body.appendChild(botao);
+    
+    // Marcar como adicionado
+    botaoAlterarNomeAdicionado = true;
 }
 
-setTimeout(adicionarBotaoAlterarNome, 1000);
-
+// Inicializar apenas uma vez quando o DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        carregarNomeSalvo();
+        adicionarBotaoAlterarNome();
+    });
+} else {
+    carregarNomeSalvo();
+    adicionarBotaoAlterarNome();
+}
